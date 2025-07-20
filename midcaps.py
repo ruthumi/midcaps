@@ -15,7 +15,7 @@ st.title("🤖 Nifty Midcap 150 Stock Recommender")
 def fetch_stock_data(stock_dict):
     """
     Fetch key stock information for given tickers from Yahoo Finance.
-    Returns a DataFrame with Name, Ticker, Sector, Market Cap, P/E Ratio, and Price.
+    Returns a DataFrame with Name, Ticker, Industry, Market Cap, P/E Ratio, and Price.
     """
     records = []
     for name, symbol in stock_dict.items():
@@ -25,7 +25,7 @@ def fetch_stock_data(stock_dict):
             records.append({
                 "Name": name,
                 "Ticker": symbol,
-                "Sector": info.get("sector", "Unknown"),
+                "Industry": info.get("Industry", "Unknown"),
                 "Market Cap": info.get("marketCap", 0),
                 "P/E Ratio": info.get("trailingPE", None),
                 "Price": info.get("currentPrice", None)
@@ -42,9 +42,9 @@ df = fetch_stock_data(midcap_stocks)
 # Sidebar filters
 st.sidebar.header("Filter Criteria")
 
-# Sector filter (default: all available sectors)
-available_sectors = df["Sector"].dropna().unique()
-selected_sectors = st.sidebar.multiselect("Sector", options=available_sectors, default=available_sectors)
+# Industry filter (default: all available Industrys)
+available_Industrys = df["Industry"].dropna().unique()
+selected_Industrys = st.sidebar.multiselect("Industry", options=available_Industrys, default=available_Industrys)
 
 # P/E ratio filter
 pe_min, pe_max = st.sidebar.slider("P/E Ratio Range", 0.0, 200.0, (0.0, 50.0))
@@ -62,7 +62,7 @@ sort_choice = st.sidebar.selectbox("Recommend Based On", list(sort_options.keys(
 
 # Filter dataframe based on user criteria
 filtered_df = df[
-    (df["Sector"].isin(selected_sectors)) &
+    (df["Industry"].isin(selected_Industrys)) &
     (df["P/E Ratio"].fillna(0).between(pe_min, pe_max)) &
     (df["Market Cap"] >= min_market_cap)
 ]
