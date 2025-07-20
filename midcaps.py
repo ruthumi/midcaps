@@ -71,3 +71,19 @@ filtered_df = df[
 sort_col, ascending = sort_options[sort_choice]
 recommended_df = filtered_df.sort_values(by=sort_col, ascending=ascending)
 
+# Display results
+if not recommended_df.empty:
+    top_stock = recommended_df.iloc[0]
+    st.success(f"✅ Recommended Stock: **{top_stock['Name']} ({top_stock['Ticker']})**")
+    
+    st.dataframe(recommended_df.reset_index(drop=True))
+    
+    with st.expander("📈 6-Month Price Chart"):
+        hist = yf.download(top_stock["Ticker"], period="6mo", interval="1d", progress=False)
+        if not hist.empty:
+            st.line_chart(hist["Close"])
+        else:
+            st.info("Price chart data unavailable.")
+else:
+    st.warning("No stocks match your criteria. Please adjust the filters and try again.")
+
