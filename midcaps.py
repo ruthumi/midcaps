@@ -1,8 +1,7 @@
 import pandas as pd
 
 def load_midcap_list():
-    url = "https://www.niftyindices.com/IndexConstituent/ind_niftymidcap150list.csv"
-    df = pd.read_csv(url)
+   df = pd.read_csv('gdrive/MyDrive/oil.csv')
     df["Symbol"] = df["Symbol"].astype(str) + ".NS"
     return dict(zip(df["Company Name"], df["Symbol"]))
 
