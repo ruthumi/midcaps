@@ -36,7 +36,7 @@ def fetch_stock_data(stock_dict):
     return pd.DataFrame(records)
 
 # Load data
-midcap_stocks = load_midcap_list()
+midcap_stocks = load_midcap_stocks()
 df = fetch_stock_data(midcap_stocks)
 
 # Sidebar filters
