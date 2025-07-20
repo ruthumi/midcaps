@@ -2,7 +2,6 @@ import pandas as pd
 
 def load_midcap_list():
   df = pd.read_csv('ind_niftymidcap150list.csv')
-  df = pd.read_csv(path)
   df["Symbol"] = df["Symbol"].astype(str) + ".NS"  # Append NSE suffix for yfinance
   return dict(zip(df["Company Name"], df["Symbol"]))
 
